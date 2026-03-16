@@ -39,7 +39,7 @@ app.get("/",async(req,res)=>{
 
 
 app.post("/save",async (req,res)=>{
-  console.log(req.body)
+  
   const {name,age,email} = req.body
 
 
@@ -60,6 +60,36 @@ app.post("/save",async (req,res)=>{
     "success":true,
     "storedInfo" :studentData
    })
+})
+
+app.put('/update/:id',async(req,res)=>{
+
+  console.log(req.body)
+  console.log(req.params.id)
+  const id = req.params.id
+
+  const studentData = await studentModel.findByIdAndUpdate(id,{
+    ...req.body
+  })
+
+  res.send({
+    message:"data updated",
+    success:true,
+    dataInfo:req.body
+  })
+})
+
+app.delete('/delete/:id',async(req,res)=>{
+
+  const id = req.params.id
+
+  const studentData = await studentModel.findByIdAndDelete(id)
+
+  res.send({
+    message:"data Deleted",
+    success:true,
+    dataInfo:studentData
+  })
 })
 
 app.listen(3200)
